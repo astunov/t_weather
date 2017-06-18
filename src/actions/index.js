@@ -1,5 +1,9 @@
 import axios from 'axios'
-import { FETCH_CITY, REMOVE_CITY, ERROR_CITY } from './types'
+import {
+  FETCH_CITY,
+  REMOVE_CITY,
+  ERROR_CITY
+} from './types'
 
 const API_KEY = '74cd51f280d3a0e329b7e48ba7e90225'
 const ROOT = `http://api.openweathermap.org/data/2.5/forecast?appid=${API_KEY}`
@@ -20,7 +24,6 @@ export function fetchCity({ name, lat, lon }) {
 
     request
       .then(response => {
-        console.log(response.data)
         dispatch({ type: FETCH_CITY, payload: response.data })
       })
       .catch(err => {

@@ -1,24 +1,33 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { v4 } from 'uuid'
 import { bindActionCreators } from 'redux'
+
 import { removeCity, fetchCity } from '../../actions/index'
 import { getCurrentGeoPosition } from '../../helpers'
+import Chart from '../../components/chart'
+import GoogleMap from '../../components/google_map'
 
 class WeatherList extends Component {
   constructor(props) {
     super(props)
   }
-
+  // todo: probably not a best place for this logic
   componentWillMount() {
     getCurrentGeoPosition()
-      .then(response =>
+      .then(response => {
+        const lat = response.coords.latitude
+        const lon = response.coords.longitude
         this.props.fetchCity({
-          lat: response.coords.latitude,
-          lon: response.coords.longitude
+          lat,
+          lon
         })
-      )
-      .catch(err => console.log(err).message)
+        // todo: use reselect
+        const duplicateCity = this.props.weather.filter(item => {
+          return (item.city.coord.lat = lat && item.city.coord.lon)
+        })[0]
+        this.props.removeCity(duplicateCity.id)
+      })
+      .catch(err => console.log(err))
   }
 
   onCityRemove = id => {
@@ -28,14 +37,16 @@ class WeatherList extends Component {
   renderCities = cityData => {
     if (!cityData || cityData.err) return false
 
-    const { city: { name, id } } = cityData
-    const key = v4()
+    const { id, city: { coord: { lon, lat } } } = cityData
+    const temps = cityData.list.map(weather => weather.main.temp)
 
     return (
       <tr key={id}>
         <td>
-          {name}
+          <GoogleMap lon={lon} lat={lat} />
         </td>
+        <td> <Chart data={temps} color={'red'} /></td>
+        <td />
         <td>
           <button
             type="button"
@@ -53,9 +64,12 @@ class WeatherList extends Component {
       <table className="table table-hover">
         <thead>
           <tr>
-            <th>City</th>
+            <th width="300">City</th>
+            <th width="300">Tempeture °C</th>
             <th />
+            <th width="100" />
           </tr>
+
         </thead>
         <tbody>
           {this.props.weather.map(this.renderCities)}

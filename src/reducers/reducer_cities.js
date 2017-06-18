@@ -6,7 +6,7 @@ export default function(state = [], action) {
     case FETCH_CITY:
       return [payload, ...state]
     case REMOVE_CITY:
-      return state.filter(item => item.city.id !== payload)
+      return state.filter(item => item.id !== payload)
     case ERROR_CITY:
       return [payload, ...state]
   }
