@@ -22,7 +22,7 @@ class WeatherList extends Component {
           lon
         })
         // todo: use reselect
-        const duplicateCity = this.props.weather.filter(item => {
+        const duplicateCity = this.props.cities.filter(item => {
           return (item.city.coord.lat = lat && item.city.coord.lon)
         })[0]
         this.props.removeCity(duplicateCity.id)
@@ -37,12 +37,15 @@ class WeatherList extends Component {
   renderCities = cityData => {
     if (!cityData || cityData.err) return false
 
-    const { id, city: { coord: { lon, lat } } } = cityData
+    const { id, city: { name, coord: { lon, lat } } } = cityData
     const temps = cityData.list.map(weather => weather.main.temp)
 
     return (
       <tr key={id}>
         <td>
+            {name}
+        </td>
+        <td className="map">
           <GoogleMap lon={lon} lat={lat} />
         </td>
         <td> <Chart data={temps} color={'red'} /></td>
@@ -64,7 +67,8 @@ class WeatherList extends Component {
       <table className="table table-hover">
         <thead>
           <tr>
-            <th width="300">City</th>
+            <th width="200">City</th>
+            <th width="300">Map</th>
             <th width="300">Tempeture °C</th>
             <th />
             <th width="100" />
@@ -72,15 +76,15 @@ class WeatherList extends Component {
 
         </thead>
         <tbody>
-          {this.props.weather.map(this.renderCities)}
+          {this.props.cities.map(this.renderCities)}
         </tbody>
       </table>
     )
   }
 }
 
-function mapStateToProps({ weather }) {
-  return { weather }
+function mapStateToProps({ cities }) {
+  return { cities }
 }
 
 function mapDispatchToProps(dispatch) {

@@ -19,7 +19,7 @@ const store = createStore(
 )
 
 store.subscribe(() => {
-  saveState({ weather: store.getState().weather })
+  saveState({ cities: store.getState().cities })
 })
 
 ReactDOM.render(

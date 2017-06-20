@@ -3,7 +3,12 @@ body {
     min-width: 320px;
 }
 
-td:first-of-type, td:first-of-type > div {
-    height: 300px;
-    width: 300px;
+.map > div {
+    height: 270px;
+    max-width: 270px;
+}
+
+svg {
+    width: 100%;
+    max-width: 270px;
 }
