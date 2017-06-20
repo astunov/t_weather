@@ -22,9 +22,6 @@ export default function(state = {}, action) {
       return { ...state, error: payload }
     case ERROR_CLEAR:
       return { ...state, error: {} }
-
-    default:
-      return state
   }
   return state
 }
