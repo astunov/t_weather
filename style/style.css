@@ -12,3 +12,7 @@ svg {
     width: 100%;
     max-width: 270px;
 }
+
+.alert {
+    margin-top: 10px;
+}

@@ -19,7 +19,7 @@ const store = createStore(
 )
 
 store.subscribe(() => {
-  saveState({ cities: store.getState().cities })
+  saveState({ cities: { queryCities: store.getState().cities.queryCities } })
 })
 
 ReactDOM.render(

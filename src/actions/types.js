@@ -1,3 +1,5 @@
 export const FETCH_CITY = 'FETCH_CITY'
+export const FETCH_CURRENT_CITY = 'FETCH_CURRENT_CITY'
 export const REMOVE_CITY = 'REMOVE_CITY'
 export const ERROR_CITY = 'ERROR_CITY'
+export const ERROR_CLEAR = 'ERROR_CLEAR'

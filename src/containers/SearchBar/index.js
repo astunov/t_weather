@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { fetchCity } from '../../actions/index'
+import { fetchCity, clearError } from '../../actions/index'
 
 class SearchBar extends Component {
   constructor(props) {
@@ -14,30 +14,42 @@ class SearchBar extends Component {
   }
   onFormSubmit = e => {
     e.preventDefault()
-
+    this.props.error && this.props.clearError()
     this.props.fetchCity({ name: this.state.query })
     this.setState({ query: '' })
   }
   render() {
     return (
-      <form className="input-group" onSubmit={this.onFormSubmit}>
-        <input
-          className="form-control"
-          type="text"
-          value={this.state.query}
-          onChange={this.onInputChange}
-          placeholder="Search for a city"
-        />
-        <span className="input-group-btn">
-          <button className="btn btn-default>">Search</button>
-        </span>
+      <form onSubmit={this.onFormSubmit}>
+
+        <div className="input-group">
+          <input
+            className="form-control"
+            type="text"
+            value={this.state.query}
+            onChange={this.onInputChange}
+            placeholder="Search for a city"
+          />
+          <span className="input-group-btn">
+            <button className="btn btn-default>">Search</button>
+          </span>
+        </div>
+        {this.props.error &&
+          <div className="alert alert-danger" role="alert">
+            {this.props.error.message}
+          </div>}
+
       </form>
     )
   }
 }
 
-function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ fetchCity }, dispatch)
+function mapStateToProps({ cities: { error } }) {
+  return { error }
 }
 
-export default connect(null, mapDispatchToProps)(SearchBar)
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators({ fetchCity, clearError }, dispatch)
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SearchBar)

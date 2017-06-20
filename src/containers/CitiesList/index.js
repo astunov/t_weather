@@ -6,26 +6,25 @@ import { removeCity, fetchCity } from '../../actions/index'
 import { getCurrentGeoPosition } from '../../helpers'
 import Chart from '../../components/chart'
 import GoogleMap from '../../components/google_map'
+import { FETCH_CURRENT_CITY } from '../../actions/types'
 
 class WeatherList extends Component {
   constructor(props) {
     super(props)
   }
-  // todo: probably not a best place for this logic
+
   componentWillMount() {
     getCurrentGeoPosition()
       .then(response => {
         const lat = response.coords.latitude
         const lon = response.coords.longitude
-        this.props.fetchCity({
-          lat,
-          lon
-        })
-        // todo: use reselect
-        const duplicateCity = this.props.cities.filter(item => {
-          return (item.city.coord.lat = lat && item.city.coord.lon)
-        })[0]
-        this.props.removeCity(duplicateCity.id)
+        this.props.fetchCity(
+          {
+            lat,
+            lon
+          },
+          FETCH_CURRENT_CITY
+        )
       })
       .catch(err => console.log(err))
   }
@@ -43,7 +42,7 @@ class WeatherList extends Component {
     return (
       <tr key={id}>
         <td>
-            {name}
+          {name}
         </td>
         <td className="map">
           <GoogleMap lon={lon} lat={lat} />
@@ -54,7 +53,8 @@ class WeatherList extends Component {
           <button
             type="button"
             className="btn btn-danger"
-            onClick={e => this.onCityRemove(id)}>
+            onClick={e => this.onCityRemove(id)}
+          >
             Remove
           </button>
         </td>
@@ -83,8 +83,8 @@ class WeatherList extends Component {
   }
 }
 
-function mapStateToProps({ cities }) {
-  return { cities }
+function mapStateToProps({ cities: { currentCity, queryCities } }) {
+  return { cities: [currentCity, ...queryCities] }
 }
 
 function mapDispatchToProps(dispatch) {
