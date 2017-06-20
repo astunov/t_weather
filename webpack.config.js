@@ -11,7 +11,7 @@ module.exports = {
         test: /\.jsx?$/,
         exclude: /node_modules/,
         loader: 'babel-loader'
-      },
+      }
     ]
   },
   resolve: {
@@ -19,6 +19,7 @@ module.exports = {
   },
   devServer: {
     historyApiFallback: true,
-    contentBase: './'
+    contentBase: './',
+    disableHostCheck: true
   }
 }
