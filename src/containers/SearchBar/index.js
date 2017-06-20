@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { fetchCity, clearError } from '../../actions/index'
+import Autocomplete from 'react-google-autocomplete'
 
 class SearchBar extends Component {
   constructor(props) {
@@ -38,6 +39,14 @@ class SearchBar extends Component {
           <div className="alert alert-danger" role="alert">
             {this.props.error.message}
           </div>}
+
+        <Autocomplete
+          className="form-control"
+          onPlaceSelected={place => {
+            console.log(place.geometry.location.lat())
+          }}
+          types={['(regions)']}
+        />
 
       </form>
     )
