@@ -13,7 +13,7 @@ class WeatherList extends Component {
     super(props)
   }
 
-  componentWillMount() {
+  componentDidMount() {
     getCurrentGeoPosition()
       .then(response => {
         const lat = response.coords.latitude
