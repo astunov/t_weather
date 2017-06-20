@@ -6,7 +6,7 @@ import {
   FETCH_CURRENT_CITY
 } from '../actions/types'
 
-export default function(state = {}, action) {
+export default function(state = { queryCities: [] }, action) {
   const { payload } = action
   switch (action.type) {
     case FETCH_CITY:

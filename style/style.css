@@ -16,3 +16,7 @@ svg {
 .alert {
     margin-top: 10px;
 }
+
+.has-error {
+    color: #a94442;
+}

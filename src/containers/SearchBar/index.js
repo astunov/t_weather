@@ -8,46 +8,73 @@ class SearchBar extends Component {
   constructor(props) {
     super(props)
 
-    this.state = { query: '' }
+    this.state = {
+      query: '',
+      lat: '',
+      lon: '',
+      formError: {
+        message: ''
+      }
+    }
   }
+
   onInputChange = e => {
-    this.setState({ query: e.target.value })
+    this.setState({
+      query: e.target.value
+    })
   }
+
+  onPlaceSelected = place => {
+    if (place && place.formatted_address) {
+      this.setState({
+        query: place.formatted_address,
+        lat: place.geometry.location.lat(),
+        lon: place.geometry.location.lng(),
+        formError: { message: '' }
+      })
+    } else {
+      this.setState({
+        formError: {
+          message: 'There is no city. Try again'
+        }
+      })
+    }
+  }
+
   onFormSubmit = e => {
-    e.preventDefault()
-    this.props.error && this.props.clearError()
-    this.props.fetchCity({ name: this.state.query })
-    this.setState({ query: '' })
+    const { lat, lon } = this.state
+    e && e.preventDefault()
+    if (lat && lon) {
+      this.props.error && this.props.clearError()
+      this.props.fetchCity({ lat, lon })
+      this.setState({ query: '', lat: '', lon: '' })
+    }
   }
+
   render() {
     return (
       <form onSubmit={this.onFormSubmit}>
-
-        <div className="input-group">
-          <input
+        <div className="form-group">
+          <Autocomplete
             className="form-control"
-            type="text"
             value={this.state.query}
             onChange={this.onInputChange}
-            placeholder="Search for a city"
+            onPlaceSelected={place => {
+              this.onPlaceSelected(place)
+              this.onFormSubmit()
+            }}
+            types={['(regions)']}
           />
-          <span className="input-group-btn">
-            <button className="btn btn-default>">Search</button>
-          </span>
+
         </div>
+
+        {this.state.formError.message &&
+          <div className="has-error"> {this.state.formError.message} </div>}
+
         {this.props.error &&
           <div className="alert alert-danger" role="alert">
             {this.props.error.message}
           </div>}
-
-        <Autocomplete
-          className="form-control"
-          onPlaceSelected={place => {
-            console.log(place.geometry.location.lat())
-          }}
-          types={['(regions)']}
-        />
-
       </form>
     )
   }
