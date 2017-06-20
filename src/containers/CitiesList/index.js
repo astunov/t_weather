@@ -26,6 +26,7 @@ class WeatherList extends Component {
           FETCH_CURRENT_CITY
         )
       })
+      // probably we don't need to handle errors here
       .catch(err => console.log(err))
   }
 
@@ -50,13 +51,14 @@ class WeatherList extends Component {
         <td> <Chart data={temps} color={'red'} /></td>
         <td />
         <td>
-          <button
-            type="button"
-            className="btn btn-danger"
-            onClick={e => this.onCityRemove(id)}
-          >
-            Remove
-          </button>
+          {id !== 'currentCity' &&
+            <button
+              type="button"
+              className="btn btn-danger"
+              onClick={e => this.onCityRemove(id)}
+            >
+              Remove
+            </button>}
         </td>
       </tr>
     )
