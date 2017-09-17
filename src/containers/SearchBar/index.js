@@ -18,9 +18,9 @@ class SearchBar extends Component {
     }
   }
 
-  onInputChange = e => {
+  onInputChange = event => {
     this.setState({
-      query: e.target.value
+      query: event.target.value
     })
   }
 

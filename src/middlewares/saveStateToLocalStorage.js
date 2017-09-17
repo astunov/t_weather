@@ -4,7 +4,7 @@ import { FETCH_CITY, REMOVE_CITY } from '../actions/types'
 export default () => {
   return next => action => {
     let { payload, type } = action
-    const state = loadState()
+    const state = loadState() || { cities: { queryCities: '' } }
 
     if (type === FETCH_CITY) {
       saveState({
