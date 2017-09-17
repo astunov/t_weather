@@ -4,13 +4,14 @@ import {
   SparklinesLine,
   SparklinesReferenceLine
 } from 'react-sparklines'
+import { convertKelvinToCelsius } from '../helpers'
 
-function average(data) {
-  let sum = data.reduce(function(a, b) {
+function average(temp) {
+  const sum = temp.reduce(function(a, b) {
     return a + b
   })
 
-  return Math.round(sum / data.length - 273.15)
+  return convertKelvinToCelsius(sum / temp.length)
 }
 
 export default props => {

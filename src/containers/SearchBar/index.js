@@ -41,9 +41,9 @@ class SearchBar extends Component {
     }
   }
 
-  onFormSubmit = e => {
+  onFormSubmit = event => {
     const { lat, lon } = this.state
-    e && e.preventDefault()
+    event && event.preventDefault()
     if (lat && lon) {
       this.props.error && this.props.clearError()
       this.props.fetchCity({ lat, lon })

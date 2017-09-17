@@ -3,3 +3,4 @@ export const getCurrentGeoPosition = options => {
     navigator.geolocation.getCurrentPosition(resolve, reject, options)
   })
 }
+export const convertKelvinToCelsius = kelvin => Math.round(kelvin - 273.15)

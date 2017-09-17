@@ -55,8 +55,7 @@ class WeatherList extends Component {
             <button
               type="button"
               className="btn btn-danger"
-              onClick={e => this.onCityRemove(id)}
-            >
+              onClick={event => this.onCityRemove(id)}>
               Remove
             </button>}
         </td>
