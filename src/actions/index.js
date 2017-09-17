@@ -2,7 +2,7 @@ import axios from 'axios'
 import { FETCH_CITY, REMOVE_CITY, ERROR_CITY, ERROR_CLEAR } from './types'
 
 const API_KEY = '74cd51f280d3a0e329b7e48ba7e90225'
-const ROOT = `http://api.openweathermap.org/data/2.5/forecast?appid=${API_KEY}`
+const ROOT = `https://api.openweathermap.org/data/2.5/forecast?appid=${API_KEY}`
 
 export function fetchCity({ name, lat, lon }, type = FETCH_CITY) {
   let url = `${ROOT}&lat=${lat}&lon=${lon}`
